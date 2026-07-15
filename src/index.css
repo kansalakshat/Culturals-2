@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..700&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-body: "Crimson Text", Georgia, serif;
+  --font-display: "Playfair Display", "Crimson Text", serif;
+
+  /* Figma palette */
+  --color-cream: #FDFAE2;
+  --color-green: #30463B;
+  --color-green-d: #26382f;
+  --color-maroon: #6C0F1E;
+  --color-ink: #101010;
+  --color-stone: #D9D9D9;
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: #FDFAE2;
+    color: #101010;
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  html, body { max-width: 100%; overflow-x: hidden; }
+  * { box-sizing: border-box; }
+
+  ::selection { background: #6C0F1E; color: #FDFAE2; }
+
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: #FDFAE2; }
+  ::-webkit-scrollbar-thumb { background: #30463B; border-radius: 10px; }
+}
+
+@layer components {
+  .display { font-family: var(--font-display); }
+
+  /* Bordered cream panel (The Clubs / The Societies) */
+  .panel {
+    background: #FDFAE2;
+    border: 1.5px solid #30463B;
+    border-radius: 25px;
+  }
+
+  /* Maroon pill button */
+  .btn-maroon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1.4rem;
+    border-radius: 15px;
+    border: 0.5px solid #30463B;
+    background: #6C0F1E;
+    color: #FDFAE2;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+    transition: transform .3s ease, filter .3s ease;
+  }
+  .btn-maroon:hover { transform: translateY(-2px); filter: brightness(1.12); }
+
+  /* subtle paper/khadi texture for the green council panel */
+  .green-texture {
+    background-color: #30463B;
+    background-image:
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  }
+}
+
+@layer utilities {
+  .writing-vertical { writing-mode: vertical-rl; }
+  @keyframes spin-slow { to { transform: rotate(360deg); } }
+  .animate-spin-slow { animation: spin-slow 90s linear infinite; }
+
+  /* auto-sliding events strip (track is duplicated, so -50% loops seamlessly) */
+  @keyframes marquee { to { transform: translateX(-50%); } }
+  .animate-marquee { animation: marquee 30s linear infinite; }
+  .animate-marquee:hover { animation-play-state: paused; }
+
+  /* OUR CORE: ring revolves, cards counter-rotate to stay upright.
+     Both MUST share the same duration or cards will tilt. */
+  @keyframes revolve { to { transform: rotate(360deg); } }
+  .animate-revolve { animation: revolve 60s linear infinite; }
+  .animate-revolve-rev { animation: revolve 60s linear infinite reverse; }
+
+  /* HALL OF FAME: photos travel a circle but stay upright (offset-rotate 0). */
+  @keyframes hof-orbit { to { offset-distance: 100%; } }
+  .hof-orbit {
+    offset-path: circle(185px at 50% 50%);
+    offset-rotate: 0deg;
+    animation: hof-orbit 60s linear infinite;
+  }
+}
